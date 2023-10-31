@@ -27,6 +27,12 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
+        [TestCase("Standard item", 1, 0, 0)]
+        public void The_quality_of_an_item_is_never_negative(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
