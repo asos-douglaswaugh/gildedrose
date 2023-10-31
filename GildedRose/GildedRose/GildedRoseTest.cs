@@ -36,7 +36,8 @@ namespace GildedRose
         [TestCase("Aged Brie", 1, 1, 2)]
         [TestCase("Aged Brie", 0, 1, 3, Description = "twice as fast when sellin is 0")] // potential bug
         [TestCase("Aged Brie", -1, 1, 3, Description = "twice as fast when sellin is 1")] // potential bug
-        public void Aged_brie_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 11, 1, 2)]
+        public void Aged_brie_and_backstage_passes_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
         {
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
