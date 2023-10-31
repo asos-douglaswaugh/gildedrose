@@ -66,6 +66,13 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 5, 1, 4)]
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 1, 4)]
+        public void Quality_of_backstage_passes_increases_by_3_when_there_are_5_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
