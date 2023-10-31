@@ -17,16 +17,17 @@ namespace GildedRose
         [TestCase("Standard item", 1, 1, 0)]
         public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality)
         {
-            IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
-            GildedRose app = new GildedRose(Items);
-            app.UpdateQuality();
-            Assert.That(Items[0].Name, Is.EqualTo(name));
-            Assert.That(Items[0].Quality, Is.EqualTo(endQuality));
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
         [TestCase("Standard item", -1, 2, 0)]
         [TestCase("Standard item", 0, 2, 0)]
         public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
+        private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
             GildedRose app = new GildedRose(Items);
