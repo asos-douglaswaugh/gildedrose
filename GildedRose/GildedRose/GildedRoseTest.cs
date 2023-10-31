@@ -73,6 +73,13 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 0, 10, 0)] // potential bug, doesn't a sellIn of 0 mean the concert is today and the ticket still valid?
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", -1, 10, 0)] // shouldn't get in to this state, unless it's initialised as such
+        public void Quality_of_backstage_passes_drops_to_0_after_the_concert(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
