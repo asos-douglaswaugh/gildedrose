@@ -33,6 +33,14 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
+        [TestCase("Aged Brie", 1, 1, 2)]
+        [TestCase("Aged Brie", 0, 1, 3, Description = "twice as fast when sellin is 0")] // potential bug
+        [TestCase("Aged Brie", -1, 1, 3, Description = "twice as fast when sellin is 1")] // potential bug
+        public void Aged_brie_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
