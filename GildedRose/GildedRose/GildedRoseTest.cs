@@ -41,6 +41,15 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
+        [TestCase("Aged Brie", 1, 50, 50)]
+        [TestCase("Standard item", 1, 75, 74)] // bug
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 48, 50)]
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 49, 50)]
+        public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
