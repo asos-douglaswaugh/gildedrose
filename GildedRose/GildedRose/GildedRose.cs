@@ -40,10 +40,10 @@
             if (item.Quality > 0)
                 item.Quality = item.Quality - 1;
 
-            item.SellIn = item.SellIn - 1;
-
-            if (item is { SellIn: < 0, Quality: > 0 })
+            if (item is { SellIn: < 1, Quality: > 0 })
                 item.Quality = item.Quality - 1;
+
+            item.SellIn = item.SellIn - 1;
         }
     }
 
