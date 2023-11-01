@@ -7,6 +7,9 @@ namespace GildedRose
     [TestFixture]
     public class GildedRoseTest
     {
+        private static IList<Item> _items;
+
+        private static GildedRose _app;
         // Once the sell by date has passed, quality degrades twice as fast
         // The quality of an item is never negative
         // Aged brie actually increases in quality the older it gets
@@ -94,11 +97,10 @@ namespace GildedRose
         [TestCase("Sulfuras, Hand of Ragnaros", -1, -1)]
         public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn)
         {
-            IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = 10 } };
-            GildedRose app = new GildedRose(Items);
-            app.UpdateQuality();
-            Assert.That(Items[0].Name, Is.EqualTo(name));
-            Assert.That(Items[0].SellIn, Is.EqualTo(endSellIn));
+            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheSellInShouldMatch(endSellIn);
         }
 
         [TestCase("Conjured Mana Cake", 1, 2, 0)]
@@ -112,11 +114,36 @@ namespace GildedRose
 
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
-            IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
-            GildedRose app = new GildedRose(Items);
-            app.UpdateQuality();
-            Assert.That(Items[0].Name, Is.EqualTo(name));
-            Assert.That(Items[0].Quality, Is.EqualTo(endQuality));
+            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheQualityShouldMatch(endQuality);
+        }
+
+        private static void ThenTheQualityShouldMatch(int quality)
+        {
+            Assert.That(_items[0].Quality, Is.EqualTo(quality));
+        }
+
+        private static void ThenTheNameShouldMatch(string name)
+        {
+            Assert.That(_items[0].Name, Is.EqualTo(name));
+        }
+
+        private static void WhenTheQualitiesAreUpdatedAtTheEndOfTheDay()
+        {
+            _app.UpdateQuality();
+        }
+
+        private void ThenTheSellInShouldMatch(int sellIn)
+        {
+            Assert.That(_items[0].SellIn, Is.EqualTo(sellIn));
+        }
+
+        private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
+        {
+            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
+            _app = new GildedRose(_items);
         }
     }
 }
