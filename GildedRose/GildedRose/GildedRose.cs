@@ -1,5 +1,24 @@
 ﻿namespace GildedRose
 {
+    public class SaleableItemFactory
+    {
+        public static SaleableItem Create(Item item)
+        {
+            SaleableItem saleableItem;
+            if (item.Name == "Sulfuras, Hand of Ragnaros")
+                saleableItem = new SaleableItem(item, new Sulfuras());
+            else if (item.Name == "Aged Brie")
+                saleableItem = new SaleableItem(item, new AgedBrie());
+            else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                saleableItem = new SaleableItem(item, new BackstagePass());
+            else if (item.Name == "Conjured Mana Cake")
+                saleableItem = new SaleableItem(item, new Conjured());
+            else
+                saleableItem = new SaleableItem(item, new StandardItem());
+            return saleableItem;
+        }
+    }
+
     public class GildedRose
     {
         IList<Item> Items;
@@ -15,26 +34,10 @@
             {
                 SaleableItem saleableItem;
 
-                saleableItem = Create(item);
+                saleableItem = SaleableItemFactory.Create(item);
 
                 _saleableItems.Add(saleableItem);
             }
-        }
-
-        private static SaleableItem Create(Item item)
-        {
-            SaleableItem saleableItem;
-            if (item.Name == "Sulfuras, Hand of Ragnaros")
-                saleableItem = new SaleableItem(item, new Sulfuras());
-            else if (item.Name == "Aged Brie")
-                saleableItem = new SaleableItem(item, new AgedBrie());
-            else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                saleableItem = new SaleableItem(item, new BackstagePass());
-            else if (item.Name == "Conjured Mana Cake")
-                saleableItem = new SaleableItem(item, new Conjured());
-            else
-                saleableItem = new SaleableItem(item, new StandardItem());
-            return saleableItem;
         }
 
         public void UpdateQuality()
