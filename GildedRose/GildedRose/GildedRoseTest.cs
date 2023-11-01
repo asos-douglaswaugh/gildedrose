@@ -112,7 +112,7 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
-        private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
+        private void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
@@ -120,23 +120,23 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
-        private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
+        private void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
         {
             _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
             _app = new GildedRose(_items);
         }
 
-        private static void WhenTheQualitiesAreUpdatedAtTheEndOfTheDay()
+        private void WhenTheQualitiesAreUpdatedAtTheEndOfTheDay()
         {
             _app.UpdateQuality();
         }
 
-        private static void ThenTheQualityShouldMatch(int quality)
+        private void ThenTheQualityShouldMatch(int quality)
         {
             Assert.That(_items[0].Quality, Is.EqualTo(quality));
         }
 
-        private static void ThenTheNameShouldMatch(string name)
+        private void ThenTheNameShouldMatch(string name)
         {
             Assert.That(_items[0].Name, Is.EqualTo(name));
         }
