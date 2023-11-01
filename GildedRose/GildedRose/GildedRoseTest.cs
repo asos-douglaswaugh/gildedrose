@@ -24,6 +24,8 @@ namespace GildedRose
 
         [TestCase("Standard item", -1, 2, 0)]
         [TestCase("Standard item", 0, 2, 0)]
+        [TestCase("Aged Brie", 0, 1, 3)]
+        [TestCase("Aged Brie", -1, 1, 3)]
         public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality)
         {
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
