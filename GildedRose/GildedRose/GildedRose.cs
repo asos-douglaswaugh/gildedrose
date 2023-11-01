@@ -42,6 +42,9 @@
             if (item.Quality > 0)
                 item.Quality = item.Quality - 2;
 
+            if (item is { SellIn: < 1, Quality: > 0})
+                item.Quality = item.Quality - 2;
+
             item.SellIn = item.SellIn - 1;
         }
     }
