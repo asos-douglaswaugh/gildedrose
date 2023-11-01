@@ -13,17 +13,28 @@
 
             foreach (var item in Items)
             {
-                if (item.Name == "Sulfuras, Hand of Ragnaros")
-                    _saleableItems.Add(new SaleableItem(item, new Sulfuras()));
-                else if (item.Name == "Aged Brie")
-                    _saleableItems.Add(new SaleableItem(item, new AgedBrie()));
-                else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                    _saleableItems.Add(new SaleableItem(item, new BackstagePass()));
-                else if (item.Name == "Conjured Mana Cake")
-                    _saleableItems.Add(new SaleableItem(item, new Conjured()));
-                else
-                    _saleableItems.Add(new SaleableItem(item, new StandardItem()));
+                SaleableItem saleableItem;
+
+                saleableItem = Create(item);
+
+                _saleableItems.Add(saleableItem);
             }
+        }
+
+        private static SaleableItem Create(Item item)
+        {
+            SaleableItem saleableItem;
+            if (item.Name == "Sulfuras, Hand of Ragnaros")
+                saleableItem = new SaleableItem(item, new Sulfuras());
+            else if (item.Name == "Aged Brie")
+                saleableItem = new SaleableItem(item, new AgedBrie());
+            else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                saleableItem = new SaleableItem(item, new BackstagePass());
+            else if (item.Name == "Conjured Mana Cake")
+                saleableItem = new SaleableItem(item, new Conjured());
+            else
+                saleableItem = new SaleableItem(item, new StandardItem());
+            return saleableItem;
         }
 
         public void UpdateQuality()
