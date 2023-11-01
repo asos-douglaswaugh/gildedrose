@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Diagnostics.Metrics;
 
 namespace GildedRose
 {
@@ -13,6 +14,7 @@ namespace GildedRose
         // Backstage passes, like aged brie, increases in quality as its sell in value approaches
         // Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but drops to 0 after the concert
         // Conjured items degrade in quality twice as fast as normal items
+        // Sell in should decrease by 1 each day for all items apart from Sulfuras which never decrease
 
         [TestCase("Standard item", 1, 1, 0)]
         public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality)
@@ -78,6 +80,21 @@ namespace GildedRose
         public void Quality_of_backstage_passes_drops_to_0_after_the_concert(string name, int startSellIn, int startQuality, int endQuality)
         {
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
+        [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 0)]
+        [TestCase("Aged Brie", 1, 0)]
+        [TestCase("Standard item", 1, 0)]
+        [TestCase("Sulfuras, Hand of Ragnaros", 1, 1)]
+        [TestCase("Sulfuras, Hand of Ragnaros", 0, 0)]
+        [TestCase("Sulfuras, Hand of Ragnaros", -1, -1)]
+        public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn)
+        {
+            IList<Item> Items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = 10 } };
+            GildedRose app = new GildedRose(Items);
+            app.UpdateQuality();
+            Assert.That(Items[0].Name, Is.EqualTo(name));
+            Assert.That(Items[0].SellIn, Is.EqualTo(endSellIn));
         }
 
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
