@@ -39,15 +39,15 @@
     {
         public void UpdateQuality(Item item)
         {
+            item.SellIn = item.SellIn - 1;
+
             item.Quality = item.Quality - 2;
 
-            if (item.SellIn < 1)
+            if (item.SellIn < 0)
                 item.Quality = item.Quality - 2;
 
             if (item.Quality < 0)
                 item.Quality = 0;
-
-            item.SellIn = item.SellIn - 1;
         }
     }
 
@@ -55,13 +55,13 @@
     {
         public void UpdateQuality(Item item)
         {
+            item.SellIn = item.SellIn - 1;
+
             if (item.Quality > 0)
                 item.Quality = item.Quality - 1;
 
-            if (item is { SellIn: < 1, Quality: > 0 })
+            if (item is { SellIn: < 0, Quality: > 0 })
                 item.Quality = item.Quality - 1;
-
-            item.SellIn = item.SellIn - 1;
         }
     }
 
@@ -69,19 +69,19 @@
     {
         public void UpdateQuality(Item item)
         {
+            item.SellIn = item.SellIn - 1;
+
             if (item is { Quality: < 50})
                 item.Quality = item.Quality + 1;
 
-            if (item is { SellIn: < 11, Quality: < 50 })
+            if (item is { SellIn: < 10, Quality: < 50 })
                 item.Quality = item.Quality + 1;
 
-            if (item is { SellIn: < 6, Quality: < 50 })
+            if (item is { SellIn: < 5, Quality: < 50 })
                 item.Quality = item.Quality + 1;
 
-            if (item.SellIn < 1)
+            if (item.SellIn < 0)
                 item.Quality = 0;
-
-            item.SellIn = item.SellIn - 1;
         }
     }
 
@@ -89,14 +89,14 @@
     {
         public void UpdateQuality(Item item)
         {
+            item.SellIn = item.SellIn - 1;
+
             if (item.Quality < 50)
                 item.Quality = item.Quality + 1;
 
-            if (item is { SellIn: < 1, Quality: < 50 })
+            if (item is { SellIn: < 0, Quality: < 50 })
                 item.Quality = item.Quality + 1;
-
-            item.SellIn = item.SellIn - 1;
-        }
+}
     }
 
     public class Sulfuras : IDegradable
