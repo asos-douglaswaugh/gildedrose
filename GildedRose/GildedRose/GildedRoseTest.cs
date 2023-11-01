@@ -103,6 +103,7 @@ namespace GildedRose
 
         [TestCase("Conjured Mana Cake", 1, 2, 0)]
         [TestCase("Conjured Mana Cake", 0, 4, 0)]
+        [TestCase("Conjured Mana Cake", 0, 3, 0)]
         public void Conjured_items_degrade_in_quality_twice_as_fast_as_normal_items(string name, int startSellIn, int startQuality, int endQuality)
         {
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
