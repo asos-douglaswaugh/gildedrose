@@ -4,18 +4,19 @@
     {
         public SaleableItem Create(Item item)
         {
-            SaleableItem saleableItem;
             if (item.Name == "Sulfuras, Hand of Ragnaros")
-                saleableItem = new SaleableItem(item, new Sulfuras());
-            else if (item.Name == "Aged Brie")
-                saleableItem = new SaleableItem(item, new AgedBrie());
-            else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                saleableItem = new SaleableItem(item, new BackstagePass());
-            else if (item.Name == "Conjured Mana Cake")
-                saleableItem = new SaleableItem(item, new Conjured());
-            else
-                saleableItem = new SaleableItem(item, new StandardItem());
-            return saleableItem;
+                return new SaleableItem(item, new Sulfuras());
+
+            if (item.Name == "Aged Brie")
+                return new SaleableItem(item, new AgedBrie());
+
+            if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                return new SaleableItem(item, new BackstagePass());
+
+            if (item.Name == "Conjured Mana Cake")
+                return new SaleableItem(item, new Conjured());
+
+            return new SaleableItem(item, new StandardItem());
         }
     }
 
