@@ -32,37 +32,27 @@
                         item.Quality = item.Quality + 1;
 
                         if (item is { SellIn: < 11, Quality: < 50 })
-                        {
                             item.Quality = item.Quality + 1;
-                        }
 
                         if (item is { SellIn: < 6, Quality: < 50 })
-                        {
                             item.Quality = item.Quality + 1;
-                        }
                     }
 
                     item.SellIn = item.SellIn - 1;
 
                     if (item.SellIn < 0)
-                    {
                         item.Quality = item.Quality - item.Quality;
-                    }
 
                     continue;
                 }
 
                 if (item.Quality > 0)
-                {
                     item.Quality = item.Quality - 1;
-                }
 
                 item.SellIn = item.SellIn - 1;
 
                 if (item is { SellIn: < 0, Quality: > 0 })
-                {
                     item.Quality = item.Quality - 1;
-                }
             }
         }
     }
