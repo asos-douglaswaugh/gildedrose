@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using System.Diagnostics.Metrics;
 
 namespace GildedRose
@@ -15,6 +16,7 @@ namespace GildedRose
         // Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but drops to 0 after the concert
         // Conjured items degrade in quality twice as fast as normal items
         // Sell in should decrease by 1 each day for all items apart from Sulfuras which never decrease
+        // Conjured items degrade in Quality twice as fast as normal items
 
         [TestCase("Standard item", 1, 1, 0)]
         public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality)
@@ -97,6 +99,12 @@ namespace GildedRose
             app.UpdateQuality();
             Assert.That(Items[0].Name, Is.EqualTo(name));
             Assert.That(Items[0].SellIn, Is.EqualTo(endSellIn));
+        }
+
+        [TestCase("Conjured Mana Cake", 1, 2, 0)]
+        public void Conjured_items_degrade_in_quality_twice_as_fast_as_normal_items(string name, int startSellIn, int startQuality, int endQuality)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
         private static void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)

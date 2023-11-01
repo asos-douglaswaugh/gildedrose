@@ -19,6 +19,8 @@
                     _saleableItems.Add(new SaleableItem(item, new AgedBrie()));
                 else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
                     _saleableItems.Add(new SaleableItem(item, new BackstagePass()));
+                else if (item.Name == "Conjured Mana Cake")
+                    _saleableItems.Add(new SaleableItem(item, new Conjured()));
                 else
                     _saleableItems.Add(new SaleableItem(item, new StandardItem()));
             }
@@ -30,6 +32,17 @@
             {
                 item.UpdateQuality();
             }
+        }
+    }
+
+    public class Conjured : IDegradable
+    {
+        public void UpdateQuality(Item item)
+        {
+            if (item.Quality > 0)
+                item.Quality = item.Quality - 2;
+
+            item.SellIn = item.SellIn - 1;
         }
     }
 
