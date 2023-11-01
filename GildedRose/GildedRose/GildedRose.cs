@@ -39,18 +39,13 @@
     {
         public void UpdateQuality(Item item)
         {
-            if (item.Quality < 2)
-                item.Quality = 0;
+            item.Quality = item.Quality - 2;
 
-            if (item.Quality > 0)
+            if (item.SellIn < 1)
                 item.Quality = item.Quality - 2;
 
-            if (item is { SellIn: < 1, Quality: 1 })
+            if (item.Quality < 0)
                 item.Quality = 0;
-
-            if (item is { SellIn: < 1, Quality: > 1})
-                item.Quality = item.Quality - 2;
-
 
             item.SellIn = item.SellIn - 1;
         }
