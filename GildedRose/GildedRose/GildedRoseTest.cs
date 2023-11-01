@@ -120,6 +120,17 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
+        private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
+        {
+            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
+            _app = new GildedRose(_items);
+        }
+
+        private static void WhenTheQualitiesAreUpdatedAtTheEndOfTheDay()
+        {
+            _app.UpdateQuality();
+        }
+
         private static void ThenTheQualityShouldMatch(int quality)
         {
             Assert.That(_items[0].Quality, Is.EqualTo(quality));
@@ -130,20 +141,9 @@ namespace GildedRose
             Assert.That(_items[0].Name, Is.EqualTo(name));
         }
 
-        private static void WhenTheQualitiesAreUpdatedAtTheEndOfTheDay()
-        {
-            _app.UpdateQuality();
-        }
-
         private void ThenTheSellInShouldMatch(int sellIn)
         {
             Assert.That(_items[0].SellIn, Is.EqualTo(sellIn));
-        }
-
-        private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
-        {
-            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
-            _app = new GildedRose(_items);
         }
     }
 }
