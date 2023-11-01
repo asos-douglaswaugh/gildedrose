@@ -2,7 +2,7 @@
 {
     public class SaleableItemFactory
     {
-        public static SaleableItem Create(Item item)
+        public SaleableItem Create(Item item)
         {
             SaleableItem saleableItem;
             if (item.Name == "Sulfuras, Hand of Ragnaros")
@@ -23,10 +23,12 @@
     {
         IList<Item> Items;
         private List<SaleableItem> _saleableItems;
+        private readonly SaleableItemFactory _saleableItemFactory;
 
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
+            _saleableItemFactory = new SaleableItemFactory();
 
             _saleableItems = new List<SaleableItem>();
 
@@ -34,7 +36,7 @@
             {
                 SaleableItem saleableItem;
 
-                saleableItem = SaleableItemFactory.Create(item);
+                saleableItem = _saleableItemFactory.Create(item);
 
                 _saleableItems.Add(saleableItem);
             }
