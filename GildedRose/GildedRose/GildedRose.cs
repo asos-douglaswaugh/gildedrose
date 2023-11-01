@@ -31,17 +31,14 @@
                     {
                         item.Quality = item.Quality + 1;
 
-                        if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                        if (item is { SellIn: < 11, Quality: < 50 })
                         {
-                            if (item is { SellIn: < 11, Quality: < 50 })
-                            {
-                                item.Quality = item.Quality + 1;
-                            }
+                            item.Quality = item.Quality + 1;
+                        }
 
-                            if (item is { SellIn: < 6, Quality: < 50 })
-                            {
-                                item.Quality = item.Quality + 1;
-                            }
+                        if (item is { SellIn: < 6, Quality: < 50 })
+                        {
+                            item.Quality = item.Quality + 1;
                         }
                     }
 
