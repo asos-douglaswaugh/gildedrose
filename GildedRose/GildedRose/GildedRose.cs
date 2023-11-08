@@ -1,23 +1,13 @@
 ﻿namespace GildedRose
 {
-    public class SaleableItemFactory
-    {
-        public IDegradable Create(Item item)
-        {
-            return item;
-        }
-    }
-
     public class GildedRose
     {
         IList<Item> Items;
         private List<IDegradable> _saleableItems;
-        private readonly SaleableItemFactory _saleableItemFactory;
 
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
-            _saleableItemFactory = new SaleableItemFactory();
 
             _saleableItems = new List<IDegradable>();
 
@@ -25,7 +15,7 @@
             {
                 IDegradable saleableItem;
 
-                saleableItem = _saleableItemFactory.Create(item);
+                saleableItem = item;
 
                 _saleableItems.Add(saleableItem);
             }
