@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using System;
 using System.Diagnostics.Metrics;
 
 namespace GildedRose
@@ -73,17 +74,18 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 11, 1, 2)]
-        public void Aged_brie_and_backstage_passes_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
+        public static IEnumerable<TestCaseData> AgedBrieAndBackstagePassesActuallyIncreaseInQualityTheOlderItGets
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 11, 1, 2, new BackstagePass());
+            }
         }
 
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 48, 50)]
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 49, 50)]
-        public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality)
+        [Test, TestCaseSource(nameof(AgedBrieAndBackstagePassesActuallyIncreaseInQualityTheOlderItGets))]
+        public void Aged_brie_and_backstage_passes_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverMoreThan50TestSource
@@ -91,7 +93,9 @@ namespace GildedRose
             get
             {
                 yield return new("Standard item", 1, 75, 74, new StandardItem()); // bug
-                yield return new TestCaseData("Aged Brie", 1, 50, 50, new AgedBrie());
+                yield return new TestCaseData("Aged Brie", 1, 50, 50, new AgedBrie()); 
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 10, 49, 50, new BackstagePass());
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 1, 48, 50, new BackstagePass());
             }
         }
 
@@ -117,25 +121,49 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 1, 3)]
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 6, 1, 3)]
-        public void Quality_of_backstage_passes_increases_by_2_when_there_are_10_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality)
+        public static IEnumerable<TestCaseData> QualityOfBackstagePassesIncreasesBy2WhenThereAre10DaysOrLessToSellInData
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 10, 1, 3, new BackstagePass());
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 6, 1, 3, new BackstagePass());
+            }
         }
 
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 5, 1, 4)]
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 1, 4)]
-        public void Quality_of_backstage_passes_increases_by_3_when_there_are_5_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality)
+        [Test, TestCaseSource(nameof(QualityOfBackstagePassesIncreasesBy2WhenThereAre10DaysOrLessToSellInData))]
+        public void Quality_of_backstage_passes_increases_by_2_when_there_are_10_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 0, 10, 0)] // potential bug, doesn't a sellIn of 0 mean the concert is today and the ticket still valid?
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", -1, 10, 0)] // shouldn't get in to this state, unless it's initialised as such
-        public void Quality_of_backstage_passes_drops_to_0_after_the_concert(string name, int startSellIn, int startQuality, int endQuality)
+        public static IEnumerable<TestCaseData> QualityOfBackstagePassesIncreasesBy3WhenThereAre5DaysOrLessToSellInData
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 5, 1, 4, new BackstagePass());
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 1, 1, 4, new BackstagePass());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(QualityOfBackstagePassesIncreasesBy3WhenThereAre5DaysOrLessToSellInData))]
+        public void Quality_of_backstage_passes_increases_by_3_when_there_are_5_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
+        {
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
+        }
+
+        public static IEnumerable<TestCaseData> QualityOfBackstagePassesDropsToZeroAfterTheConcert
+        {
+            get
+            {
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 0, 10, 0, new BackstagePass()); // potential bug, doesn't a sellIn of 0 mean the concert is today and the ticket still valid?
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", -1, 10, 0, new BackstagePass()); // shouldn't get in to this state, unless it's initialised as such
+            }
+        }
+
+        [Test, TestCaseSource(nameof(QualityOfBackstagePassesDropsToZeroAfterTheConcert))]
+        public void Quality_of_backstage_passes_drops_to_0_after_the_concert(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
+        {
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         public static IEnumerable<TestCaseData> SellInShouldDecreaseBy1EachDayForAllItemsApartFromSulfurasWhichNeverDecrease
@@ -144,7 +172,7 @@ namespace GildedRose
             {
                 yield return new("Standard item", 1, 0, new StandardItem());
                 yield return new TestCaseData("Aged Brie", 1, 0, new AgedBrie());
-                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 1, 0, new Sulfuras());
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 1, 0, new BackstagePass());
                 yield return new TestCaseData("Sulfuras, Hand of Ragnaros", 1, 1, new Sulfuras());
                 yield return new TestCaseData("Sulfuras, Hand of Ragnaros", 0, 0, new Sulfuras());
                 yield return new TestCaseData("Sulfuras, Hand of Ragnaros", -1, -1, new Sulfuras());

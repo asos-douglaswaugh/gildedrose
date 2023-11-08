@@ -46,19 +46,22 @@
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 15,
-                    Quality = 20
+                    Quality = 20,
+                    Type = new BackstagePass()
                 },
                 new()
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 10,
-                    Quality = 49
+                    Quality = 49,
+                    Type = new BackstagePass()
                 },
                 new()
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 5,
-                    Quality = 49
+                    Quality = 49,
+                    Type = new BackstagePass()
                 },
                 new()
                 {

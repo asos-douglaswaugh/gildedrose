@@ -11,7 +11,7 @@
                 return item;
 
             if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                return new SaleableItem(item, new BackstagePass());
+                return item;
 
             if (item.Name == "Conjured Mana Cake")
                 return new SaleableItem(item, new Conjured());
