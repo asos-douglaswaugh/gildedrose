@@ -131,7 +131,7 @@
 
     public interface IDegradable
     {
-        void UpdateQuality();
+        void UpdateQuality(IDegradable item);
         string Name { get; }
         int Quality { get; set; }
         int SellIn { get; set; }
@@ -160,7 +160,7 @@
             _sulfuras = sulfuras;
         }
 
-        public void UpdateQuality()
+        public void UpdateQuality(IDegradable item)
         {
             _sulfuras.UpdateQuality(this);
         }

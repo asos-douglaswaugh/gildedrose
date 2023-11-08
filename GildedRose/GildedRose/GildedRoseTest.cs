@@ -41,6 +41,8 @@ namespace GildedRose
             {
                 yield return new TestCaseData("Standard item", -1, 2, 0, new StandardItem());
                 yield return new TestCaseData("Standard item", 0, 2, 0, new StandardItem());
+                yield return new TestCaseData("Aged Brie", 0, 1, 3, new AgedBrie());
+                yield return new TestCaseData("Aged Brie", -1, 1, 3, new AgedBrie());
             }
         }
 
@@ -54,18 +56,14 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
-        [TestCase("Aged Brie", 0, 1, 3)]
-        [TestCase("Aged Brie", -1, 1, 3)]
-        public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality)
-        {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
-        }
-
         public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverNegativeTestSource
         {
             get
             {
-                yield return new("Standard item", 1, 0, 0, new StandardItem());
+                yield return new TestCaseData("Standard item", 1, 0, 0, new StandardItem());
+                yield return new TestCaseData("Aged Brie", 1, 1, 2, new AgedBrie());
+                yield return new TestCaseData( "Aged Brie", 0, 1, 3, new AgedBrie()).SetName("twice as fast when sellin is 0"); // potential bug
+                yield return new TestCaseData("Aged Brie", -1, 1, 3, new AgedBrie()).SetName("twice as fast when sellin is 1"); // potential bug
             }
         }
 
@@ -75,9 +73,7 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        [TestCase("Aged Brie", 1, 1, 2)]
-        [TestCase("Aged Brie", 0, 1, 3, Description = "twice as fast when sellin is 0")] // potential bug
-        [TestCase("Aged Brie", -1, 1, 3, Description = "twice as fast when sellin is 1")] // potential bug
+        
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 11, 1, 2)]
         public void Aged_brie_and_backstage_passes_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
         {

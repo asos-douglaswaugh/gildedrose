@@ -5,7 +5,7 @@
         public string Name { get; set; }
         public int SellIn { get; set; }
         public int Quality { get; set; }
-        public StandardItem Type { get; set; }
+        public IDegradable Type { get; set; }
 
         public override string ToString()
         {
@@ -15,6 +15,11 @@
         public void UpdateQuality()
         {
             Type.UpdateQuality(this);
+        }
+
+        public void UpdateQuality(IDegradable item)
+        {
+            Type.UpdateQuality(item);
         }
     }
 }
