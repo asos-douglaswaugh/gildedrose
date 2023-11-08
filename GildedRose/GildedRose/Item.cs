@@ -1,6 +1,6 @@
 ﻿namespace GildedRose
 {
-    public class Item : IDegradable
+    public class Item
     {
         public string Name { get; set; }
         public int SellIn { get; set; }

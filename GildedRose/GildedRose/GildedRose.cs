@@ -20,7 +20,7 @@
 
     public class Conjured : IDegrade
     {
-        public void UpdateQuality(IDegradable item)
+        public void UpdateQuality(Item item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -36,7 +36,7 @@
 
     public class StandardItem : IDegrade
     {
-        public void UpdateQuality(IDegradable item)
+        public void UpdateQuality(Item item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -50,7 +50,7 @@
 
     public class BackstagePass : IDegrade
     {
-        public void UpdateQuality(IDegradable item)
+        public void UpdateQuality(Item item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -70,7 +70,7 @@
 
     public class AgedBrie : IDegrade
     {
-        public void UpdateQuality(IDegradable item)
+        public void UpdateQuality(Item item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -84,7 +84,7 @@
 
     public class Sulfuras : IDegrade
     {
-        public void UpdateQuality(IDegradable item)
+        public void UpdateQuality(Item item)
         {
             return;
         }
@@ -92,14 +92,6 @@
 
     public interface IDegrade
     {
-        void UpdateQuality(IDegradable item);
-    }
-
-    public interface IDegradable
-    {
-        void UpdateQuality();
-        string Name { get; }
-        int Quality { get; set; }
-        int SellIn { get; set; }
+        void UpdateQuality(Item item);
     }
 }
