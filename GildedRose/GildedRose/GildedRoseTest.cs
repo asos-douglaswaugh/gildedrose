@@ -20,11 +20,23 @@ namespace GildedRose
         // Conjured items degrade in quality twice as fast as normal items
         // Sell in should decrease by 1 each day for all items apart from Sulfuras which never decrease
         // Conjured items degrade in Quality twice as fast as normal items
-
-        [TestCase("Standard item", 1, 1, 0)]
-        public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality)
+        
+        public static IEnumerable<TestCaseData> StandItemShouldDegradeByOneEachDayTestCases
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new TestCaseData("Standard item", 1, 1, 0, new StandardItem());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(StandItemShouldDegradeByOneEachDayTestCases))]
+        public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        {
+            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality, Type = type  } };
+            _app = new GildedRose(_items);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheQualityShouldMatch(endQuality);
         }
 
         [TestCase("Standard item", -1, 2, 0)]
