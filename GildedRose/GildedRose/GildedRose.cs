@@ -8,7 +8,7 @@
                 return new SaleableItem(item, new Sulfuras());
 
             if (item.Name == "Aged Brie")
-                return new SaleableItem(item, new AgedBrie());
+                return item;
 
             if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
                 return new SaleableItem(item, new BackstagePass());

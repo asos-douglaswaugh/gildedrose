@@ -18,7 +18,8 @@
                 {
                     Name = "Aged Brie",
                     SellIn = 2,
-                    Quality = 0
+                    Quality = 0,
+                    Type = new AgedBrie()
                 },
                 new()
                 {

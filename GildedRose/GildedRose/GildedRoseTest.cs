@@ -41,6 +41,8 @@ namespace GildedRose
             {
                 yield return new TestCaseData("Standard item", -1, 2, 0, new StandardItem());
                 yield return new TestCaseData("Standard item", 0, 2, 0, new StandardItem());
+                yield return new TestCaseData("Aged Brie", 0, 1, 3, new AgedBrie());
+                yield return new TestCaseData("Aged Brie", -1, 1, 3, new AgedBrie());
             }
         }
 
@@ -54,18 +56,14 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
-        [TestCase("Aged Brie", 0, 1, 3)]
-        [TestCase("Aged Brie", -1, 1, 3)]
-        public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality)
-        {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
-        }
-
         public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverNegativeTestSource
         {
             get
             {
                 yield return new("Standard item", 1, 0, 0, new StandardItem());
+                yield return new TestCaseData("Aged Brie", 1, 1, 2, new AgedBrie());
+                yield return new TestCaseData("Aged Brie", 0, 1, 3, new AgedBrie()).SetName("twice as fast when sellin is 0"); // potential bug
+                yield return new TestCaseData("Aged Brie", -1, 1, 3, new AgedBrie()).SetName("twice as fast when sellin is 1"); // potential bug
             }
         }
 
@@ -75,16 +73,12 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        [TestCase("Aged Brie", 1, 1, 2)]
-        [TestCase("Aged Brie", 0, 1, 3, Description = "twice as fast when sellin is 0")] // potential bug
-        [TestCase("Aged Brie", -1, 1, 3, Description = "twice as fast when sellin is 1")] // potential bug
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 11, 1, 2)]
         public void Aged_brie_and_backstage_passes_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
         {
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
-        [TestCase("Aged Brie", 1, 50, 50)]
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 48, 50)]
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 49, 50)]
         public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality)
@@ -97,6 +91,7 @@ namespace GildedRose
             get
             {
                 yield return new("Standard item", 1, 75, 74, new StandardItem()); // bug
+                yield return new TestCaseData("Aged Brie", 1, 50, 50, new AgedBrie());
             }
         }
 
@@ -136,7 +131,6 @@ namespace GildedRose
         }
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 0)]
-        [TestCase("Aged Brie", 1, 0)]
         [TestCase("Sulfuras, Hand of Ragnaros", 1, 1)]
         [TestCase("Sulfuras, Hand of Ragnaros", 0, 0)]
         [TestCase("Sulfuras, Hand of Ragnaros", -1, -1)]
@@ -153,6 +147,7 @@ namespace GildedRose
             get
             {
                 yield return new("Standard item", 1, 0, new StandardItem());
+                yield return new TestCaseData("Aged Brie", 1, 0, new AgedBrie());
             }
         }
 
