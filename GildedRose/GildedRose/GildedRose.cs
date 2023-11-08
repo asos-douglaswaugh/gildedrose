@@ -22,12 +22,12 @@
     {
         public void UpdateQuality(Item item)
         {
-            item.SellIn = item.SellIn - 1;
+            item.SellIn -= 1;
 
-            item.Quality = item.Quality - 2;
+            item.Quality -= 2;
 
             if (item.SellIn < 0)
-                item.Quality = item.Quality - 2;
+                item.Quality -= 2;
 
             if (item.Quality < 0)
                 item.Quality = 0;
@@ -38,13 +38,13 @@
     {
         public void UpdateQuality(Item item)
         {
-            item.SellIn = item.SellIn - 1;
+            item.SellIn -= 1;
 
             if (item.Quality > 0)
-                item.Quality = item.Quality - 1;
+                item.Quality -= 1;
 
             if (item is { SellIn: < 0, Quality: > 0 })
-                item.Quality = item.Quality - 1;
+                item.Quality -= 1;
         }
     }
 
@@ -52,16 +52,16 @@
     {
         public void UpdateQuality(Item item)
         {
-            item.SellIn = item.SellIn - 1;
+            item.SellIn -= 1;
 
             if (item is { Quality: < 50})
-                item.Quality = item.Quality + 1;
+                item.Quality += 1;
 
             if (item is { SellIn: < 10, Quality: < 50 })
-                item.Quality = item.Quality + 1;
+                item.Quality += 1;
 
             if (item is { SellIn: < 5, Quality: < 50 })
-                item.Quality = item.Quality + 1;
+                item.Quality += 1;
 
             if (item.SellIn < 0)
                 item.Quality = 0;
@@ -72,13 +72,13 @@
     {
         public void UpdateQuality(Item item)
         {
-            item.SellIn = item.SellIn - 1;
+            item.SellIn -= 1;
 
             if (item.Quality < 50)
-                item.Quality = item.Quality + 1;
+                item.Quality += 1;
 
             if (item is { SellIn: < 0, Quality: < 50 })
-                item.Quality = item.Quality + 1;
+                item.Quality += 1;
 }
     }
 
