@@ -188,13 +188,21 @@ namespace GildedRose
             ThenTheSellInShouldMatch(endSellIn);
         }
 
-        [TestCase("Conjured Mana Cake", 1, 2, 0)]
-        [TestCase("Conjured Mana Cake", 1, 1, 0)]
-        [TestCase("Conjured Mana Cake", 0, 4, 0)]
-        [TestCase("Conjured Mana Cake", 0, 3, 0)]
-        public void Conjured_items_degrade_in_quality_twice_as_fast_as_normal_items(string name, int startSellIn, int startQuality, int endQuality)
+        public static IEnumerable<TestCaseData> ConjuredItemsDegradeInQualityTwiceAsFastAsNormalItems
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new TestCaseData("Conjured Mana Cake", 1, 2, 0, new Conjured());
+                yield return new TestCaseData("Conjured Mana Cake", 1, 1, 0, new Conjured());
+                yield return new TestCaseData("Conjured Mana Cake", 0, 4, 0, new Conjured());
+                yield return new TestCaseData("Conjured Mana Cake", 0, 3, 0, new Conjured());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(ConjuredItemsDegradeInQualityTwiceAsFastAsNormalItems))]
+        public void Conjured_items_degrade_in_quality_twice_as_fast_as_normal_items(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
+        {
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality)

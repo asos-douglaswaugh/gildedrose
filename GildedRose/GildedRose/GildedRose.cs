@@ -14,7 +14,7 @@
                 return item;
 
             if (item.Name == "Conjured Mana Cake")
-                return new SaleableItem(item, new Conjured());
+                return item;
 
             return item;
         }

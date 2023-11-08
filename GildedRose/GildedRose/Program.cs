@@ -67,7 +67,8 @@
                 {
                     Name = "Conjured Mana Cake",
                     SellIn = 3,
-                    Quality = 6
+                    Quality = 6,
+                    Type = new Conjured()
                 }
             };
 
