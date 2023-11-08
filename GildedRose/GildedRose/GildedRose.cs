@@ -52,7 +52,7 @@
         }
     }
 
-    public class Conjured : IDegradable
+    public class Conjured : IDegrade
     {
         public void UpdateQuality(Item item)
         {
@@ -68,7 +68,7 @@
         }
     }
 
-    public class StandardItem : IDegradable
+    public class StandardItem : IDegrade
     {
         public void UpdateQuality(Item item)
         {
@@ -82,7 +82,7 @@
         }
     }
 
-    public class BackstagePass : IDegradable
+    public class BackstagePass : IDegrade
     {
         public void UpdateQuality(Item item)
         {
@@ -102,7 +102,7 @@
         }
     }
 
-    public class AgedBrie : IDegradable
+    public class AgedBrie : IDegrade
     {
         public void UpdateQuality(Item item)
         {
@@ -116,7 +116,7 @@
 }
     }
 
-    public class Sulfuras : IDegradable
+    public class Sulfuras : IDegrade
     {
         public void UpdateQuality(Item item)
         {
@@ -124,7 +124,7 @@
         }
     }
 
-    public interface IDegradable
+    public interface IDegrade
     {
         void UpdateQuality(Item item);
     }
@@ -132,9 +132,9 @@
     public class SaleableItem
     {
         private readonly Item _item;
-        private readonly IDegradable _sulfuras;
+        private readonly IDegrade _sulfuras;
 
-        public SaleableItem(Item item, IDegradable sulfuras)
+        public SaleableItem(Item item, IDegrade sulfuras)
         {
             _item = item;
             _sulfuras = sulfuras;
