@@ -39,8 +39,25 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
-        [TestCase("Standard item", -1, 2, 0)]
-        [TestCase("Standard item", 0, 2, 0)]
+        public static IEnumerable<TestCaseData> OnceTheSellByDateHasPassQualityDegradesTwiceAsFastTestCases
+        {
+            get
+            {
+                yield return new TestCaseData("Standard item", -1, 2, 0, new StandardItem());
+                yield return new TestCaseData("Standard item", 0, 2, 0, new StandardItem());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(OnceTheSellByDateHasPassQualityDegradesTwiceAsFastTestCases))]
+        public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        {
+            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality, Type = type } };
+            _app = new GildedRose(_items);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheQualityShouldMatch(endQuality);
+        }
+
         [TestCase("Aged Brie", 0, 1, 3)]
         [TestCase("Aged Brie", -1, 1, 3)]
         public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality)
