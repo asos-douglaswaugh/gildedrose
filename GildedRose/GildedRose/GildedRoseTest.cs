@@ -205,26 +205,12 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality)
-        {
-            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality);
-            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
-            ThenTheNameShouldMatch(name);
-            ThenTheQualityShouldMatch(endQuality);
-        }
-
         private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality, type);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
             ThenTheNameShouldMatch(name);
             ThenTheQualityShouldMatch(endQuality);
-        }
-
-        private void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
-        {
-            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
-            _app = new GildedRose(_items);
         }
 
         private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality,
