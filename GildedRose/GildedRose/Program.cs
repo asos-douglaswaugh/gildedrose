@@ -55,7 +55,6 @@
                     SellIn = 5,
                     Quality = 49
                 },
-                // this conjured item does not work properly yet
                 new()
                 {
                     Name = "Conjured Mana Cake",
