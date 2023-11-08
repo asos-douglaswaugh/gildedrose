@@ -32,11 +32,7 @@ namespace GildedRose
         [Test, TestCaseSource(nameof(StandItemShouldDegradeByOneEachDayTestCases))]
         public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
         {
-            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality, Type = type  } };
-            _app = new GildedRose(_items);
-            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
-            ThenTheNameShouldMatch(name);
-            ThenTheQualityShouldMatch(endQuality);
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality, type);
         }
 
         public static IEnumerable<TestCaseData> OnceTheSellByDateHasPassQualityDegradesTwiceAsFastTestCases
@@ -149,9 +145,24 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
+        private void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        {
+            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality, type);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheQualityShouldMatch(endQuality);
+        }
+
         private void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality)
         {
             _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality } };
+            _app = new GildedRose(_items);
+        }
+
+        private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality,
+            StandardItem type)
+        {
+            _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality, Type = type } };
             _app = new GildedRose(_items);
         }
 
