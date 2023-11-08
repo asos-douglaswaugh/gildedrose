@@ -2,7 +2,7 @@
 {
     public class SaleableItemFactory
     {
-        public SaleableItem Create(Item item)
+        public IDegradable Create(Item item)
         {
             if (item.Name == "Sulfuras, Hand of Ragnaros")
                 return new SaleableItem(item, new Sulfuras());
@@ -23,7 +23,7 @@
     public class GildedRose
     {
         IList<Item> Items;
-        private List<SaleableItem> _saleableItems;
+        private List<IDegradable> _saleableItems;
         private readonly SaleableItemFactory _saleableItemFactory;
 
         public GildedRose(IList<Item> Items)
@@ -31,11 +31,11 @@
             this.Items = Items;
             _saleableItemFactory = new SaleableItemFactory();
 
-            _saleableItems = new List<SaleableItem>();
+            _saleableItems = new List<IDegradable>();
 
             foreach (var item in Items)
             {
-                SaleableItem saleableItem;
+                IDegradable saleableItem;
 
                 saleableItem = _saleableItemFactory.Create(item);
 
@@ -129,7 +129,12 @@
         void UpdateQuality(Item item);
     }
 
-    public class SaleableItem
+    public interface IDegradable
+    {
+        void UpdateQuality();
+    }
+
+    public class SaleableItem : IDegradable
     {
         private readonly Item _item;
         private readonly IDegrade _sulfuras;
