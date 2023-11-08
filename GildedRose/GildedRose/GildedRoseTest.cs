@@ -182,10 +182,7 @@ namespace GildedRose
         [Test, TestCaseSource(nameof(SellInShouldDecreaseBy1EachDayForAllItemsApartFromSulfurasWhichNeverDecrease))]
         public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn, IDegrade type)
         {
-            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10, type);
-            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
-            ThenTheNameShouldMatch(name);
-            ThenTheSellInShouldMatch(endSellIn);
+            CreateUpdateAndAssertSellIn(name, startSellIn, endSellIn, type);
         }
 
         public static IEnumerable<TestCaseData> ConjuredItemsDegradeInQualityTwiceAsFastAsNormalItems
@@ -211,6 +208,14 @@ namespace GildedRose
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
             ThenTheNameShouldMatch(name);
             ThenTheQualityShouldMatch(endQuality);
+        }
+
+        private void CreateUpdateAndAssertSellIn(string name, int startSellIn, int endSellIn, IDegrade type)
+        {
+            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10, type);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheSellInShouldMatch(endSellIn);
         }
 
         private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality,
