@@ -54,7 +54,7 @@
 
     public class Conjured : IDegrade
     {
-        public void UpdateQuality(Item item)
+        public void UpdateQuality(IDegradable item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -70,7 +70,7 @@
 
     public class StandardItem : IDegrade
     {
-        public void UpdateQuality(Item item)
+        public void UpdateQuality(IDegradable item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -84,7 +84,7 @@
 
     public class BackstagePass : IDegrade
     {
-        public void UpdateQuality(Item item)
+        public void UpdateQuality(IDegradable item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -104,7 +104,7 @@
 
     public class AgedBrie : IDegrade
     {
-        public void UpdateQuality(Item item)
+        public void UpdateQuality(IDegradable item)
         {
             item.SellIn = item.SellIn - 1;
 
@@ -118,7 +118,7 @@
 
     public class Sulfuras : IDegrade
     {
-        public void UpdateQuality(Item item)
+        public void UpdateQuality(IDegradable item)
         {
             return;
         }
@@ -126,18 +126,33 @@
 
     public interface IDegrade
     {
-        void UpdateQuality(Item item);
+        void UpdateQuality(IDegradable item);
     }
 
     public interface IDegradable
     {
         void UpdateQuality();
+        string Name { get; }
+        int Quality { get; set; }
+        int SellIn { get; set; }
     }
 
     public class SaleableItem : IDegradable
     {
         private readonly Item _item;
         private readonly IDegrade _sulfuras;
+
+        public string Name => _item.Name;
+        public int Quality
+        {
+            get => _item.Quality;
+            set => _item.Quality = value;
+        }
+        public int SellIn
+        {
+            get => _item.SellIn;
+            set => _item.SellIn = value;
+        }
 
         public SaleableItem(Item item, IDegrade sulfuras)
         {
@@ -147,7 +162,7 @@
 
         public void UpdateQuality()
         {
-            _sulfuras.UpdateQuality(_item);
+            _sulfuras.UpdateQuality(this);
         }
     }
 }
