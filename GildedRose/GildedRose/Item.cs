@@ -5,7 +5,7 @@
         public string Name { get; set; }
         public int SellIn { get; set; }
         public int Quality { get; set; }
-        public StandardItem Type { get; set; }
+        public IDegrade Type { get; set; }
 
         public override string ToString()
         {

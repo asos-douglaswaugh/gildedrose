@@ -30,7 +30,7 @@ namespace GildedRose
         }
 
         [Test, TestCaseSource(nameof(StandItemShouldDegradeByOneEachDayTestCases))]
-        public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
@@ -45,7 +45,7 @@ namespace GildedRose
         }
 
         [Test, TestCaseSource(nameof(OnceTheSellByDateHasPassQualityDegradesTwiceAsFastTestCases))]
-        public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
             _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality, Type = type } };
             _app = new GildedRose(_items);
@@ -70,7 +70,7 @@ namespace GildedRose
         }
 
         [Test, TestCaseSource(nameof(TheQualityOfAnItemIsNeverNegativeTestSource))]
-        public void The_quality_of_an_item_is_never_negative(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        public void The_quality_of_an_item_is_never_negative(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
@@ -101,7 +101,7 @@ namespace GildedRose
         }
 
         [Test, TestCaseSource(nameof(TheQualityOfAnItemIsNeverMoreThan50TestSource))]
-        public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
@@ -157,7 +157,7 @@ namespace GildedRose
         }
 
         [Test, TestCaseSource(nameof(SellInShouldDecreaseBy1EachDayForAllItemsApartFromSulfurasWhichNeverDecrease))]
-        public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn, StandardItem type)
+        public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn, IDegrade type)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10, type);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
@@ -182,7 +182,7 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
-        private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality, type);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
@@ -197,7 +197,7 @@ namespace GildedRose
         }
 
         private static void GivenTheGildedRoseHasOneItemInStock(string name, int startSellIn, int startQuality,
-            StandardItem type)
+            IDegrade type)
         {
             _items = new List<Item> { new Item { Name = name, SellIn = startSellIn, Quality = startQuality, Type = type } };
             _app = new GildedRose(_items);
