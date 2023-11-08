@@ -23,7 +23,7 @@
 
         public void UpdateQuality()
         {
-            foreach (var item in _saleableItems)
+            foreach (var item in Items)
             {
                 item.UpdateQuality();
             }
