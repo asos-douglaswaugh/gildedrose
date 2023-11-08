@@ -1,7 +1,4 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using System;
-using System.Diagnostics.Metrics;
 
 namespace GildedRose
 {
