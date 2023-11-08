@@ -4,18 +4,6 @@
     {
         public IDegradable Create(Item item)
         {
-            if (item.Name == "Sulfuras, Hand of Ragnaros")
-                return item;
-
-            if (item.Name == "Aged Brie")
-                return item;
-
-            if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                return item;
-
-            if (item.Name == "Conjured Mana Cake")
-                return item;
-
             return item;
         }
     }
