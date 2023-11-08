@@ -77,12 +77,25 @@ namespace GildedRose
         }
 
         [TestCase("Aged Brie", 1, 50, 50)]
-        [TestCase("Standard item", 1, 75, 74)] // bug
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 48, 50)]
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 49, 50)]
         public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality)
         {
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+        }
+
+        public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverMoreThan50TestSource
+        {
+            get
+            {
+                yield return new("Standard item", 1, 75, 74, new StandardItem()); // bug
+            }
+        }
+
+        [Test, TestCaseSource(nameof(TheQualityOfAnItemIsNeverMoreThan50TestSource))]
+        public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality, type);
         }
 
         [TestCase("Sulfuras, Hand of Ragnaros", 1, 80, 80)]
