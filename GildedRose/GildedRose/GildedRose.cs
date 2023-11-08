@@ -3,22 +3,10 @@
     public class GildedRose
     {
         IList<Item> Items;
-        private List<IDegradable> _saleableItems;
 
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
-
-            _saleableItems = new List<IDegradable>();
-
-            foreach (var item in Items)
-            {
-                IDegradable saleableItem;
-
-                saleableItem = item;
-
-                _saleableItems.Add(saleableItem);
-            }
         }
 
         public void UpdateQuality()
@@ -113,34 +101,5 @@
         string Name { get; }
         int Quality { get; set; }
         int SellIn { get; set; }
-    }
-
-    public class SaleableItem : IDegradable
-    {
-        private readonly Item _item;
-        private readonly IDegrade _sulfuras;
-
-        public string Name => _item.Name;
-        public int Quality
-        {
-            get => _item.Quality;
-            set => _item.Quality = value;
-        }
-        public int SellIn
-        {
-            get => _item.SellIn;
-            set => _item.SellIn = value;
-        }
-
-        public SaleableItem(Item item, IDegrade sulfuras)
-        {
-            _item = item;
-            _sulfuras = sulfuras;
-        }
-
-        public void UpdateQuality()
-        {
-            _sulfuras.UpdateQuality(this);
-        }
     }
 }
