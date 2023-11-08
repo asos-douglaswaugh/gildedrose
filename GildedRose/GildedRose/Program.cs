@@ -11,7 +11,8 @@
                 {
                     Name = "+5 Dexterity Vest",
                     SellIn = 10,
-                    Quality = 20
+                    Quality = 20,
+                    Type = new StandardItem()
                 },
                 new()
                 {
@@ -23,7 +24,8 @@
                 {
                     Name = "Elixir of the Mongoose",
                     SellIn = 5,
-                    Quality = 7
+                    Quality = 7,
+                    Type = new StandardItem()
                 },
                 new()
                 {
