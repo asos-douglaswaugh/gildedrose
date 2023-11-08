@@ -32,7 +32,7 @@ namespace GildedRose
         [Test, TestCaseSource(nameof(StandItemShouldDegradeByOneEachDayTestCases))]
         public void A_standard_item_should_degrade_by_one_each_day(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality, type);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         public static IEnumerable<TestCaseData> OnceTheSellByDateHasPassQualityDegradesTwiceAsFastTestCases
@@ -58,7 +58,7 @@ namespace GildedRose
         [TestCase("Aged Brie", -1, 1, 3)]
         public void Once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverNegativeTestSource
@@ -72,7 +72,7 @@ namespace GildedRose
         [Test, TestCaseSource(nameof(TheQualityOfAnItemIsNeverNegativeTestSource))]
         public void The_quality_of_an_item_is_never_negative(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality, type);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         [TestCase("Aged Brie", 1, 1, 2)]
@@ -81,7 +81,7 @@ namespace GildedRose
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 11, 1, 2)]
         public void Aged_brie_and_backstage_passes_actually_increases_in_quality_the_older_it_gets(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         [TestCase("Aged Brie", 1, 50, 50)]
@@ -89,7 +89,7 @@ namespace GildedRose
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 49, 50)]
         public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverMoreThan50TestSource
@@ -103,7 +103,7 @@ namespace GildedRose
         [Test, TestCaseSource(nameof(TheQualityOfAnItemIsNeverMoreThan50TestSource))]
         public void The_quality_of_an_item_is_never_more_than_50(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality, type);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         [TestCase("Sulfuras, Hand of Ragnaros", 1, 80, 80)]
@@ -111,28 +111,28 @@ namespace GildedRose
         [TestCase("Sulfuras, Hand of Ragnaros", -1, 80, 80)]
         public void Sulfuras_being_a_legendary_item_never_has_to_be_sold_or_decreases_in_value_it_is_always_80(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 1, 3)]
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 6, 1, 3)]
         public void Quality_of_backstage_passes_increases_by_2_when_there_are_10_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 5, 1, 4)]
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 1, 4)]
         public void Quality_of_backstage_passes_increases_by_3_when_there_are_5_days_or_less_to_sell_in_date(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 0, 10, 0)] // potential bug, doesn't a sellIn of 0 mean the concert is today and the ticket still valid?
         [TestCase("Backstage passes to a TAFKAL80ETC concert", -1, 10, 0)] // shouldn't get in to this state, unless it's initialised as such
         public void Quality_of_backstage_passes_drops_to_0_after_the_concert(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 0)]
@@ -171,10 +171,10 @@ namespace GildedRose
         [TestCase("Conjured Mana Cake", 0, 3, 0)]
         public void Conjured_items_degrade_in_quality_twice_as_fast_as_normal_items(string name, int startSellIn, int startQuality, int endQuality)
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
-        private void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality)
+        private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
@@ -182,7 +182,7 @@ namespace GildedRose
             ThenTheQualityShouldMatch(endQuality);
         }
 
-        private void CreateUpdateAndAssert(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        private void CreateUpdateAndAssertQuality(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, startQuality, type);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
