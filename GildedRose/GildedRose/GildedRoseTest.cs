@@ -61,10 +61,18 @@ namespace GildedRose
             CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
         }
 
-        [TestCase("Standard item", 1, 0, 0)]
-        public void The_quality_of_an_item_is_never_negative(string name, int startSellIn, int startQuality, int endQuality)
+        public static IEnumerable<TestCaseData> TheQualityOfAnItemIsNeverNegativeTestSource
         {
-            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new("Standard item", 1, 0, 0, new StandardItem());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(TheQualityOfAnItemIsNeverNegativeTestSource))]
+        public void The_quality_of_an_item_is_never_negative(string name, int startSellIn, int startQuality, int endQuality, StandardItem type)
+        {
+            CreateUpdateAndAssert(name, startSellIn, startQuality, endQuality, type);
         }
 
         [TestCase("Aged Brie", 1, 1, 2)]
