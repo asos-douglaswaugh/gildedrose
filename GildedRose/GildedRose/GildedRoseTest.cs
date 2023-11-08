@@ -101,12 +101,20 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
-        [TestCase("Sulfuras, Hand of Ragnaros", 1, 80, 80)]
-        [TestCase("Sulfuras, Hand of Ragnaros", 0, 80, 80)]
-        [TestCase("Sulfuras, Hand of Ragnaros", -1, 80, 80)]
-        public void Sulfuras_being_a_legendary_item_never_has_to_be_sold_or_decreases_in_value_it_is_always_80(string name, int startSellIn, int startQuality, int endQuality)
+        public static IEnumerable<TestCaseData> SulfurasBeingALegendaryItemNeverHasToBeSoldOrDecreasesInValueItIsAlways80TestCase
         {
-            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
+            get
+            {
+                yield return new TestCaseData("Sulfuras, Hand of Ragnaros", 1, 80, 80, new Sulfuras());
+                yield return new TestCaseData("Sulfuras, Hand of Ragnaros", 0, 80, 80, new Sulfuras());
+                yield return new TestCaseData("Sulfuras, Hand of Ragnaros", -1, 80, 80, new Sulfuras());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(SulfurasBeingALegendaryItemNeverHasToBeSoldOrDecreasesInValueItIsAlways80TestCase))]
+        public void Sulfuras_being_a_legendary_item_never_has_to_be_sold_or_decreases_in_value_it_is_always_80(string name, int startSellIn, int startQuality, int endQuality, IDegrade type)
+        {
+            CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality, type);
         }
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 10, 1, 3)]
@@ -130,24 +138,16 @@ namespace GildedRose
             CreateUpdateAndAssertQuality(name, startSellIn, startQuality, endQuality);
         }
 
-        [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 0)]
-        [TestCase("Sulfuras, Hand of Ragnaros", 1, 1)]
-        [TestCase("Sulfuras, Hand of Ragnaros", 0, 0)]
-        [TestCase("Sulfuras, Hand of Ragnaros", -1, -1)]
-        public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn)
-        {
-            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10);
-            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
-            ThenTheNameShouldMatch(name);
-            ThenTheSellInShouldMatch(endSellIn);
-        }
-
         public static IEnumerable<TestCaseData> SellInShouldDecreaseBy1EachDayForAllItemsApartFromSulfurasWhichNeverDecrease
         {
             get
             {
                 yield return new("Standard item", 1, 0, new StandardItem());
                 yield return new TestCaseData("Aged Brie", 1, 0, new AgedBrie());
+                yield return new TestCaseData("Backstage passes to a TAFKAL80ETC concert", 1, 0, new Sulfuras());
+                yield return new TestCaseData("Sulfuras, Hand of Ragnaros", 1, 1, new Sulfuras());
+                yield return new TestCaseData("Sulfuras, Hand of Ragnaros", 0, 0, new Sulfuras());
+                yield return new TestCaseData("Sulfuras, Hand of Ragnaros", -1, -1, new Sulfuras());
             }
         }
 

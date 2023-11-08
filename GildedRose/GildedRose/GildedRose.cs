@@ -5,7 +5,7 @@
         public IDegradable Create(Item item)
         {
             if (item.Name == "Sulfuras, Hand of Ragnaros")
-                return new SaleableItem(item, new Sulfuras());
+                return item;
 
             if (item.Name == "Aged Brie")
                 return item;

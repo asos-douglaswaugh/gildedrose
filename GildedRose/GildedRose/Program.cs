@@ -32,13 +32,15 @@
                 {
                     Name = "Sulfuras, Hand of Ragnaros",
                     SellIn = 0,
-                    Quality = 80
+                    Quality = 80,
+                    Type = new Sulfuras()
                 },
                 new()
                 {
                     Name = "Sulfuras, Hand of Ragnaros",
                     SellIn = -1,
-                    Quality = 80
+                    Quality = 80,
+                    Type = new Sulfuras()
                 },
                 new()
                 {
