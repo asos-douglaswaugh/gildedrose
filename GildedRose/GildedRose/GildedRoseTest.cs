@@ -116,13 +116,29 @@ namespace GildedRose
 
         [TestCase("Backstage passes to a TAFKAL80ETC concert", 1, 0)]
         [TestCase("Aged Brie", 1, 0)]
-        [TestCase("Standard item", 1, 0)]
         [TestCase("Sulfuras, Hand of Ragnaros", 1, 1)]
         [TestCase("Sulfuras, Hand of Ragnaros", 0, 0)]
         [TestCase("Sulfuras, Hand of Ragnaros", -1, -1)]
         public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn)
         {
             GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10);
+            WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
+            ThenTheNameShouldMatch(name);
+            ThenTheSellInShouldMatch(endSellIn);
+        }
+
+        public static IEnumerable<TestCaseData> SellInShouldDecreaseBy1EachDayForAllItemsApartFromSulfurasWhichNeverDecrease
+        {
+            get
+            {
+                yield return new("Standard item", 1, 0, new StandardItem());
+            }
+        }
+
+        [Test, TestCaseSource(nameof(SellInShouldDecreaseBy1EachDayForAllItemsApartFromSulfurasWhichNeverDecrease))]
+        public void Sell_in_should_decrease_by_1_each_day_for_all_items_apart_from_Sulfuras_which_never_decrease(string name, int startSellIn, int endSellIn, StandardItem type)
+        {
+            GivenTheGildedRoseHasOneItemInStock(name, startSellIn, 10, type);
             WhenTheQualitiesAreUpdatedAtTheEndOfTheDay();
             ThenTheNameShouldMatch(name);
             ThenTheSellInShouldMatch(endSellIn);
